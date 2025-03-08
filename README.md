@@ -51,7 +51,3 @@ Run the app on an Android emulator or a physical device to start uploading, crea
 🤝 Contributing 🤝
 
 Contributions are welcome! Please fork the repository and create a pull request with your proposed changes. All ideas for improving the app are appreciated!
-
-📜 License 📜
-
-This project is licensed under the MIT License. See the LICENSE file for details.
