@@ -1,4 +1,5 @@
 🌟 AI-Based Outfit Combiner App 🌟
+
 This app leverages AI to help users create stylish outfit combinations from their uploaded or captured photos. The app intelligently cuts out clothing from backgrounds, labels and classifies the items, and suggests trendy outfit combinations. Users can explore, create, and share their outfit ideas with others, making it the perfect platform for fashion inspiration.
 
 🚀 Features 🚀
