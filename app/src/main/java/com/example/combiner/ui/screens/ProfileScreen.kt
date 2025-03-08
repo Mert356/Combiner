@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PlayArrow
@@ -22,9 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.combiner.R
+import com.example.combiner.ui.components.PostItem
+import com.example.combiner.ui.screens.fakePosts
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
@@ -62,7 +68,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(4.dp)
-                .background(if (!isGridView) Color.LightGray else Color.Transparent) // Seçiliyse gri, değilse şeffaf
+                .background(if (!isGridView) Color.LightGray else Color.Transparent)
                 .clickable { onToggleChange(false) }
                 .padding(12.dp)
         ) {
@@ -78,7 +84,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(4.dp)
-                .background(if (isGridView) Color.LightGray else Color.Transparent) // Seçiliyse gri, değilse şeffaf
+                .background(if (isGridView) Color.LightGray else Color.Transparent)
                 .clickable { onToggleChange(true) }
                 .padding(12.dp)
         ) {
@@ -91,8 +97,6 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
         }
     }
 }
-
-
 
 @Composable
 fun UserProfile() {
@@ -135,56 +139,24 @@ fun UserPosts(isGridView: Boolean) {
         }
     } else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(8.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF5F5F5))
         ) {
-            items(20) { index ->
-                PostItem(index)
+            items(fakePosts) { post ->
+                PostItem(
+                    username = post.username,
+                    userProfileImage = post.image2,
+                    postImage = post.image,
+                    postDescription = post.description,
+                    onLikeClick = { /* Like action */ },
+                    onCommentClick = { /* Comment action */ },
+                    onSaveClick = { /* Save action */ }
+                )
             }
         }
     }
 }
-
-@Composable
-fun PostItem(index: Int) {
-    Column(modifier = Modifier.padding(16.dp)) {
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(4.dp)
-                .background(Color.Gray)
-        ) {
-            Text(
-                text = "Post $index",
-                modifier = Modifier.align(Alignment.Center),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row {
-                IconButton(onClick = { /* Like action */ }) {
-                    Icon(Icons.Filled.Favorite, contentDescription = "Like")
-                }
-                IconButton(onClick = { /* Comment action */ }) {
-                    Icon(Icons.Filled.Phone, contentDescription = "Comment")
-                }
-            }
-
-            IconButton(onClick = { /* Save action */ }) {
-                Icon(Icons.Filled.Star, contentDescription = "Save")
-            }
-        }
-    }
-}
-
 
 @Composable
 fun GridPostItem(index: Int) {

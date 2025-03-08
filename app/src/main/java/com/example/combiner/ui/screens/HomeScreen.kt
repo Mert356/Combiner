@@ -1,6 +1,5 @@
 package com.example.combiner.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,11 +7,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -20,16 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.combiner.R
+import com.example.combiner.ui.components.PostItem
 import kotlinx.coroutines.launch
-
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -58,66 +52,19 @@ fun HomeScreen(navController: NavHostController) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding),
-                contentPadding = PaddingValues(16.dp)
+                    .background(Color(0xFFF5F5F5))
+                    .padding(padding)
             ) {
                 items(fakePosts) { post ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        shape = MaterialTheme.shapes.medium,
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Row {
-                                Image(
-                                    painter = painterResource(id = R.drawable.kombin_1),
-                                    contentDescription = "Profile Picture",
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .clip(MaterialTheme.shapes.medium)
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(post.username, fontWeight = FontWeight.Bold)
-                            }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Image(
-                                painter = painterResource(id = R.drawable.kombin_2),
-                                contentDescription = "Outfit Post",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(250.dp)
-                                    .clip(MaterialTheme.shapes.medium)
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(post.description, fontSize = 14.sp)
-
-                            // Beğenme, Yorum, Kaydetme Butonları
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 8.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Row {
-                                    IconButton(onClick = { }) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Favorite,
-                                            contentDescription = "Like",
-                                        )
-                                    }
-                                    IconButton(onClick = { /* Yorum Yap */ }) {
-                                        Icon(Icons.Filled.Phone, contentDescription = "Comment")
-                                    }
-                                }
-
-                                IconButton(onClick = { /* Kaydetme İşlemi */ }) {
-                                    Icon(Icons.Filled.Star, contentDescription = "Save")
-                                }
-                            }
-                        }
-                    }
+                    PostItem(
+                        username = post.username,
+                        userProfileImage = post.image2,
+                        postImage = post.image,
+                        postDescription = post.description,
+                        onLikeClick = { /* Like action */ },
+                        onCommentClick = { /* Comment action */ },
+                        onSaveClick = { /* Save action */ }
+                    )
                 }
             }
         }
@@ -145,11 +92,11 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit) {
         modifier = Modifier
             .fillMaxHeight()
             .width(280.dp)
-            .background(MaterialTheme.colorScheme.surface) // Arka plan rengi
+            .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        // Profil Bölümü
+
         Text(
             text = "My Profile",
             style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
@@ -157,7 +104,7 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit) {
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        // Menü Seçenekleri
+
         DrawerItem(
             icon = Icons.Filled.Person,
             label = "Profile",
@@ -186,7 +133,6 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit) {
     }
 }
 
-// ✅ Tek tek Drawer seçeneklerini tasarlayan fonksiyon
 @Composable
 fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
     Column {
@@ -200,7 +146,7 @@ fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: Str
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = MaterialTheme.colorScheme.primary, // Modern renk
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(12.dp))
@@ -210,16 +156,14 @@ fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: Str
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
-        Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)) // Ayrım çizgisi
+        Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f))
     }
 }
 
-
-
-data class Post(val username: String, val description: String)
+data class Post(val username: String, val image: Int, val image2: Int, val description: String)
 
 val fakePosts = listOf(
-    Post("Ahmet", "Bugünkü kombinim!"),
-    Post("Elif", "Sade ve şık."),
-    Post("Mert", "Bu ceketi çok sevdim!"),
+    Post("Mert", R.drawable.kombin_1,R.drawable.kombin_2,"Bugünkü kombinim!"),
+    Post("Sena", R.drawable.kombin_1,R.drawable.kombin_2,"Sade ve şık."),
+    Post("Ahmet", R.drawable.kombin_1,R.drawable.kombin_2,"Bu ceketi çok sevdim!"),
 )
