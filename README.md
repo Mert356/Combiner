@@ -40,7 +40,7 @@ Backend: Firebase (currently)
 bash
 Kopyala
 Düzenle
-git clone https://github.com/yourusername/ai-outfit-combiner.git
+git clone [https://github.com/yourusername/ai-outfit-combiner.git](https://github.com/Mert356/Combiner)
 2. Install Dependencies
 Open the project in Android Studio and build the app for your preferred environment.
 3. Set Up Firebase
