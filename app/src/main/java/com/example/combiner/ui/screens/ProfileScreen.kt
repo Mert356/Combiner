@@ -31,6 +31,12 @@ import androidx.navigation.NavHostController
 import com.example.combiner.R
 import com.example.combiner.ui.components.PostItem
 import com.example.combiner.ui.screens.fakePosts
+import com.example.combiner.ui.theme.BeigeCream
+import com.example.combiner.ui.theme.BeigeMocha
+import com.example.combiner.ui.theme.Caramel
+import com.example.combiner.ui.theme.DeepChocolate
+import com.example.combiner.ui.theme.GoldenSand
+import com.example.combiner.ui.theme.SoftIvory
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
@@ -42,6 +48,7 @@ fun ProfileScreen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .background(BeigeCream)
         ) {
             UserProfile()
             ToggleViewSelector(isGridView) { isGridView = it }
@@ -53,7 +60,11 @@ fun ProfileScreen(navController: NavHostController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileTopBar() {
-    TopAppBar(title = { Text("Profile") })
+    TopAppBar(title = { Text("Profile") },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = BeigeCream,
+            titleContentColor = DeepChocolate
+        ))
 }
 
 @Composable
@@ -68,7 +79,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(4.dp)
-                .background(if (!isGridView) Color.LightGray else Color.Transparent)
+                .background(if (!isGridView) Caramel else Color.Transparent)
                 .clickable { onToggleChange(false) }
                 .padding(12.dp)
         ) {
@@ -84,7 +95,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(4.dp)
-                .background(if (isGridView) Color.LightGray else Color.Transparent)
+                .background(if (isGridView) Caramel else Color.Transparent)
                 .clickable { onToggleChange(true) }
                 .padding(12.dp)
         ) {
@@ -130,7 +141,7 @@ fun UserPosts(isGridView: Boolean) {
     if (isGridView) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().background(BeigeCream),
             contentPadding = PaddingValues(8.dp)
         ) {
             items(20) { index ->
@@ -141,7 +152,7 @@ fun UserPosts(isGridView: Boolean) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF5F5F5))
+                .background(BeigeCream)
         ) {
             items(fakePosts) { post ->
                 PostItem(
@@ -164,10 +175,11 @@ fun GridPostItem(index: Int) {
         modifier = Modifier
             .padding(4.dp)
             .size(80.dp)
-            .background(Color.Gray)
+            .background(DeepChocolate)
     ) {
         Text(
             text = "Post $index",
+            color = GoldenSand,
             modifier = Modifier.align(Alignment.Center),
             style = MaterialTheme.typography.bodySmall
         )

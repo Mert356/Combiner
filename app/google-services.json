@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "549293128191",
+    "project_id": "outfit-combiner",
+    "storage_bucket": "outfit-combiner.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549293128191:android:4276b766259dafd3c00fca",
+        "android_client_info": {
+          "package_name": "com.example.combiner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549293128191-7rgs6ej0d8bh6abmkflov2vnu28tfb8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.combiner",
+            "certificate_hash": "b4a62d2191dd9f5c2ccc91fc494f690946e3d5b7"
+          }
+        },
+        {
+          "client_id": "549293128191-el8e4rfrmdkc7cohspvbagpou4sbro9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA42pT9j8xh9ieY1sz6x5UC1exf8xujlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549293128191-el8e4rfrmdkc7cohspvbagpou4sbro9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

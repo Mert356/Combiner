@@ -2,33 +2,32 @@ package com.example.combiner.ui.theme
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
-    primary = PrimaryWhite,
-    secondary = SecondaryBeige,
-    background = PrimaryBlack,
-    surface = SecondaryGray,
-    onPrimary = PrimaryBlack,
-    onSecondary = PrimaryBlack,
-    onBackground = PrimaryWhite,
-    onSurface = PrimaryWhite
+    primary = BeigeMocha,
+    secondary = Espresso,
+    background = DarkTaupe,
+    surface = Espresso,
+    onPrimary = SoftIvory,
+    onSecondary = GoldenAmber,
+    onBackground = SoftIvory,
+    onSurface = SoftIvory
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = PrimaryBlack,
-    secondary = SecondaryBeige,
-    background = PrimaryWhite,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = PrimaryBlack,
-    onBackground = PrimaryBlack,
-    onSurface = PrimaryBlack
+    primary = Caramel,
+    secondary = BeigeCream,
+    background = WarmGray,
+    surface = GoldenSand,
+    onPrimary = DeepChocolate,
+    onSecondary = GoldenSand,
+    onBackground = DeepChocolate,
+    onSurface = DeepChocolate
 )
 
 @Composable
 fun CombinerTheme(
-    darkTheme: Boolean = false, // Karanlık mod desteği
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColorScheme else LightColorScheme

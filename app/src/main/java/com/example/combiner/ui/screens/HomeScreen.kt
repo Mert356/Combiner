@@ -1,17 +1,15 @@
 package com.example.combiner.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,7 +21,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.combiner.R
 import com.example.combiner.ui.components.PostItem
+import com.example.combiner.ui.theme.*
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import android.os.Handler
+import android.os.Looper
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -34,7 +36,7 @@ fun HomeScreen(navController: NavHostController) {
         scrimColor = Color.Transparent,
         drawerContent = {
             ModalDrawerSheet(
-                modifier = Modifier.width(280.dp)
+                modifier = Modifier.width(280.dp).background(WarmGray)
             ) {
                 DrawerContent(navController, onClose = {
                     scope.launch { drawerState.close() }
@@ -47,12 +49,12 @@ fun HomeScreen(navController: NavHostController) {
                 HomeTopBar(onMenuClick = {
                     scope.launch { drawerState.open() }
                 })
-            }
+            },
         ) { padding ->
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFF5F5F5))
+                    .background(BeigeCream)
                     .padding(padding)
             ) {
                 items(fakePosts) { post ->
@@ -71,8 +73,6 @@ fun HomeScreen(navController: NavHostController) {
     }
 }
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar(onMenuClick: () -> Unit) {
@@ -80,9 +80,13 @@ fun HomeTopBar(onMenuClick: () -> Unit) {
         title = { Text("Home") },
         navigationIcon = {
             IconButton(onClick = onMenuClick) {
-                Icon(Icons.Filled.Menu, contentDescription = "Menu")
+                Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = DeepChocolate)
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = BeigeCream,
+            titleContentColor = DeepChocolate
+        )
     )
 }
 
@@ -92,46 +96,36 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit) {
         modifier = Modifier
             .fillMaxHeight()
             .width(280.dp)
-            .background(MaterialTheme.colorScheme.surface)
+            .background(BeigeCream)
             .padding(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
-
         Text(
             text = "My Profile",
-            style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
-            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp),
+            color = DeepChocolate,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-
-
-        DrawerItem(
-            icon = Icons.Filled.Person,
-            label = "Profile",
-            onClick = { navController.navigate("profile"); onClose() }
-        )
-        DrawerItem(
-            icon = Icons.Filled.Home,
-            label = "Home",
-            onClick = { navController.navigate("home"); onClose() }
-        )
-        DrawerItem(
-            icon = Icons.Filled.Settings,
-            label = "Settings",
-            onClick = { navController.navigate("settings"); onClose() }
-        )
-        DrawerItem(
-            icon = Icons.Filled.Star,
-            label = "Saved Items",
-            onClick = { navController.navigate("saved"); onClose() }
-        )
-        DrawerItem(
-            icon = Icons.Filled.Edit,
-            label = "Edit Profile",
-            onClick = { navController.navigate("editProfile"); onClose() }
-        )
+        Spacer(modifier = Modifier.padding(20.dp))
+        DrawerItem(Icons.Filled.Person, "Profile") { navController.navigate("profile"); onClose() }
+        DrawerItem(Icons.Filled.Home, "Home") { navController.navigate("home"); onClose() }
+        DrawerItem(Icons.Filled.Settings, "Settings") { navController.navigate("settings"); onClose() }
+        DrawerItem(Icons.Filled.Star, "Saved Items") { navController.navigate("saved"); onClose() }
+        DrawerItem(Icons.Filled.Edit, "Edit Profile") { navController.navigate("editProfile"); onClose() }
+        DrawerItem(Icons.AutoMirrored.Filled.ArrowBack, "Log Out") { logoutUser (navController); onClose() }
     }
 }
+
+fun logoutUser(navController: NavHostController) {
+    val auth = FirebaseAuth.getInstance()
+    auth.signOut()
+    Handler(Looper.getMainLooper()).post {
+        navController.navigate("log_in") {
+            popUpTo("home") { inclusive = true }
+        }
+    }
+}
+
 
 @Composable
 fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
@@ -140,30 +134,30 @@ fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: Str
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .padding(vertical = 12.dp, horizontal = 8.dp),
+                .padding(vertical = 16.dp, horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = DeepChocolate,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = label,
                 fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface
+                color = DeepChocolate
             )
         }
-        Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f))
+        Divider(color = DeepChocolate.copy(alpha = 0.2f))
     }
 }
 
 data class Post(val username: String, val image: Int, val image2: Int, val description: String)
 
 val fakePosts = listOf(
-    Post("Mert", R.drawable.kombin_1,R.drawable.kombin_2,"Bugünkü kombinim!"),
-    Post("Sena", R.drawable.kombin_1,R.drawable.kombin_2,"Sade ve şık."),
-    Post("Ahmet", R.drawable.kombin_1,R.drawable.kombin_2,"Bu ceketi çok sevdim!"),
+    Post("Mert", R.drawable.kombin_1, R.drawable.kombin_2, "Bugünkü kombinim!"),
+    Post("Sena", R.drawable.kombin_1, R.drawable.kombin_2, "Sade ve şık."),
+    Post("Ahmet", R.drawable.kombin_1, R.drawable.kombin_2, "Bu ceketi çok sevdim!"),
 )
