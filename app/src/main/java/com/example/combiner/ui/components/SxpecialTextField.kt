@@ -34,6 +34,7 @@ fun SpecialTextField(
         placeholder = { Text(hint, color = DeepChocolate) },
         shape = RoundedCornerShape(20.dp),
         colors = TextFieldDefaults.colors(
+            cursorColor = Color.Black,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             focusedContainerColor = Caramel,

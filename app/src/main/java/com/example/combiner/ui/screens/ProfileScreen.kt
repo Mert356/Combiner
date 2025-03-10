@@ -1,5 +1,6 @@
-package com.example.ui.screens
+package com.example.combiner.ui.screens
 
+import Frame
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,13 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,22 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.combiner.R
 import com.example.combiner.ui.components.PostItem
-import com.example.combiner.ui.screens.fakePosts
 import com.example.combiner.ui.theme.BeigeCream
-import com.example.combiner.ui.theme.BeigeMocha
 import com.example.combiner.ui.theme.Caramel
 import com.example.combiner.ui.theme.DeepChocolate
 import com.example.combiner.ui.theme.GoldenSand
-import com.example.combiner.ui.theme.SoftIvory
 
 @Composable
-fun ProfileScreen(navController: NavHostController) {
+fun ProfileScreen() {
     var isGridView by remember { mutableStateOf(false) }
     Scaffold(
         topBar = { ProfileTopBar() }
@@ -84,7 +73,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
                 .padding(12.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.List,
+                imageVector = Icons.AutoMirrored.Filled.List,
                 contentDescription = "List View",
                 tint = Color.Black,
                 modifier = Modifier.align(Alignment.Center)
@@ -100,7 +89,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
                 .padding(12.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.AccountBox,
+                imageVector = Frame,
                 contentDescription = "Grid View",
                 tint = Color.Black,
                 modifier = Modifier.align(Alignment.Center)

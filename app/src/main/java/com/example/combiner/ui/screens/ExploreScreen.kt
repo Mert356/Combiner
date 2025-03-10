@@ -4,25 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.combiner.R
 import com.example.combiner.ui.theme.*
 
 @Composable
-fun ExploreScreen(navController: NavHostController) {
+fun ExploreScreen() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(BeigeCream) // Yumuşak bej arka plan
+            .background(BeigeCream)
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -69,7 +65,7 @@ fun SmallImage(modifier: Modifier = Modifier) {
         contentDescription = "Small Image",
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp)) // Kenarları yuvarladık
+            .clip(RoundedCornerShape(10.dp))
             .aspectRatio(3f / 2f)
     )
 }
@@ -81,7 +77,7 @@ fun BigImage(modifier: Modifier = Modifier) {
         contentDescription = "Big Image",
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp)) // Kenarları yuvarladık
+            .clip(RoundedCornerShape(10.dp))
             .aspectRatio(3.5f / 4f)
     )
 }

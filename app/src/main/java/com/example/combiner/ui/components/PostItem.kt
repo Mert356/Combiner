@@ -1,5 +1,6 @@
 package com.example.combiner.ui.components
 
+import Mode_comment
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,9 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.sharp.Favorite
+import androidx.compose.material.icons.sharp.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -30,8 +30,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.combiner.ui.theme.BeigeMocha
-import com.example.combiner.ui.theme.Caramel
 import com.example.combiner.ui.theme.WarmGray
 
 @Composable
@@ -72,7 +70,6 @@ fun PostItem(
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Paylaşılan görsel
             Image(
                 painter = painterResource(id = postImage),
                 contentDescription = "Post Image",
@@ -99,14 +96,14 @@ fun PostItem(
                 Row {
                     IconButton(onClick = onLikeClick) {
                         Icon(
-                            Icons.Filled.Favorite,
+                            Icons.Sharp.Favorite,
                             contentDescription = "Like",
                             tint = Color(0xFFFF6F61)
                         )
                     }
                     IconButton(onClick = onCommentClick) {
                         Icon(
-                            Icons.Filled.Email,
+                            Mode_comment,
                             contentDescription = "Comment",
                             tint = Color(0xFFFF6F61)
                         )
@@ -114,7 +111,7 @@ fun PostItem(
                 }
                 IconButton(onClick = onSaveClick) {
                     Icon(
-                        Icons.Filled.Star,
+                        Icons.Sharp.Star,
                         contentDescription = "Save",
                         tint = Color(0xFFFF6F61)
                     )

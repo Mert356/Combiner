@@ -1,7 +1,5 @@
 package com.example.combiner.ui.screens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -150,7 +148,7 @@ fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: Str
                 color = DeepChocolate
             )
         }
-        Divider(color = DeepChocolate.copy(alpha = 0.2f))
+        HorizontalDivider(color = DeepChocolate.copy(alpha = 0.2f))
     }
 }
 

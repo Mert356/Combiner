@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
 import com.example.combiner.ui.components.SpecialButton
 import com.example.combiner.ui.components.SpecialTextField
+import com.example.combiner.ui.theme.DeepChocolate
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -29,9 +30,10 @@ fun LogInScreen(navController: NavController) {
             "Welcome to OUTFIT COMBINER",
             fontSize = 50.sp,
             lineHeight = 60.sp,
+            fontStyle = FontStyle.Italic,
+            color = DeepChocolate,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.SansSerif,
             modifier = Modifier.padding(bottom = 50.dp)
         )
 
@@ -77,9 +79,9 @@ fun loginUser(email: String, password: String, onResult: (Boolean, String?) -> U
     auth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                onResult(true, null) // Başarılı giriş
+                onResult(true, null)
             } else {
-                onResult(false, task.exception?.message) // Hata mesajını döndür
+                onResult(false, task.exception?.message)
             }
         }
 }
