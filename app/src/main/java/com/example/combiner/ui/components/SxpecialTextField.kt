@@ -11,14 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.combiner.ui.theme.BeigeCream
-import com.example.combiner.ui.theme.Caramel
-import com.example.combiner.ui.theme.DeepChocolate
+import com.example.combiner.ui.theme.BackgroundColor
+import com.example.combiner.ui.theme.SecondaryTextAndIconColor
+import com.example.combiner.ui.theme.TextAndIconColor
 
 @Composable
 fun SpecialTextField(
@@ -31,18 +30,18 @@ fun SpecialTextField(
     TextField(
         value = text,
         onValueChange = onClickFun,
-        placeholder = { Text(hint, color = DeepChocolate) },
+        placeholder = { Text(hint, color = TextAndIconColor) },
         shape = RoundedCornerShape(20.dp),
         colors = TextFieldDefaults.colors(
             cursorColor = Color.Black,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            focusedContainerColor = Caramel,
-            unfocusedContainerColor = BeigeCream
+            focusedContainerColor = SecondaryTextAndIconColor,
+            unfocusedContainerColor = BackgroundColor
         ),
         modifier = Modifier
             .clip(RoundedCornerShape(25.dp))
-            .background(DeepChocolate)
+            .background(TextAndIconColor)
             .padding(5.dp),
         visualTransformation = visualTransformation ?: VisualTransformation.None,
     )
@@ -52,7 +51,7 @@ fun SpecialTextField(
 @Preview(showBackground = true)
 @Composable
 fun PreviewTextField() {
-    SpecialTextField("Mert", onClickFun = {}) // Placeholder çalışır, çünkü "Mert" yazılmış
-    SpecialTextField("", onClickFun = {}) // Placeholder görünür olacak
+    SpecialTextField("Mert", onClickFun = {})
+    SpecialTextField("", onClickFun = {})
 }
 

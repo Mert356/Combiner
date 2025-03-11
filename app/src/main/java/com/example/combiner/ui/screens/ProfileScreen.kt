@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -22,10 +23,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.combiner.R
 import com.example.combiner.ui.components.PostItem
-import com.example.combiner.ui.theme.BeigeCream
-import com.example.combiner.ui.theme.Caramel
-import com.example.combiner.ui.theme.DeepChocolate
-import com.example.combiner.ui.theme.GoldenSand
+import com.example.combiner.ui.theme.BackgroundColor
+import com.example.combiner.ui.theme.SecondaryTextAndIconColor
+import com.example.combiner.ui.theme.TextAndIconColor
+import com.example.combiner.ui.theme.PostBackgroundColor
 
 @Composable
 fun ProfileScreen() {
@@ -37,7 +38,7 @@ fun ProfileScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(BeigeCream)
+                .background(BackgroundColor)
         ) {
             UserProfile()
             ToggleViewSelector(isGridView) { isGridView = it }
@@ -51,8 +52,8 @@ fun ProfileScreen() {
 fun ProfileTopBar() {
     TopAppBar(title = { Text("Profile") },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = BeigeCream,
-            titleContentColor = DeepChocolate
+            containerColor = BackgroundColor,
+            titleContentColor = TextAndIconColor
         ))
 }
 
@@ -68,7 +69,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(4.dp)
-                .background(if (!isGridView) Caramel else Color.Transparent)
+                .background(if (!isGridView) SecondaryTextAndIconColor else Color.Transparent)
                 .clickable { onToggleChange(false) }
                 .padding(12.dp)
         ) {
@@ -84,7 +85,7 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(4.dp)
-                .background(if (isGridView) Caramel else Color.Transparent)
+                .background(if (isGridView) SecondaryTextAndIconColor else Color.Transparent)
                 .clickable { onToggleChange(true) }
                 .padding(12.dp)
         ) {
@@ -100,48 +101,77 @@ fun ToggleViewSelector(isGridView: Boolean, onToggleChange: (Boolean) -> Unit) {
 
 @Composable
 fun UserProfile() {
-    Column(
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.man_2),
-            contentDescription = "User Profile",
-            modifier = Modifier
-                .size(100.dp)
-                .padding(4.dp)
-                .clip(CircleShape)
-        )
+        Column (verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            ){
+            Image(
+                painter = painterResource(id = R.drawable.man_2),
+                contentDescription = "User Profile",
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(CircleShape)
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
-
-        Text("Username", style = MaterialTheme.typography.titleMedium)
-        Text("Followers: 1200", style = MaterialTheme.typography.bodyMedium)
-        Text("Following: 180", style = MaterialTheme.typography.bodyMedium)
-        Text("Posts: 150", style = MaterialTheme.typography.bodyMedium)
+        Column {
+            addInfo("Followers",1200)
+        }
+        addInfo("Followings",1500)
+        addInfo("Posts",150)
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
-
+@Composable
+fun addInfo(text:String,number:Int){
+    Column(verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(5.dp)
+        ) {
+        Text(number.toString())
+        Text(text)
+    }
+}
 
 @Composable
 fun UserPosts(isGridView: Boolean) {
+    val imageList = listOf(
+        R.drawable.kombin_1,
+        R.drawable.kombin_2,
+        R.drawable.kombin_1,
+        R.drawable.kombin_2,
+        R.drawable.kombin_1,
+        R.drawable.kombin_2 ,
+        R.drawable.kombin_1,
+        R.drawable.kombin_2,
+        R.drawable.kombin_1,
+        R.drawable.kombin_2,
+        R.drawable.kombin_1,
+        R.drawable.kombin_2
+    )
+
     if (isGridView) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(4),
-            modifier = Modifier.fillMaxSize().background(BeigeCream),
+            columns = GridCells.Fixed(3),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BackgroundColor),
             contentPadding = PaddingValues(8.dp)
         ) {
-            items(20) { index ->
-                GridPostItem(index)
+            items(imageList) { imageRes ->
+                GridPostItem(imageRes)
             }
         }
     } else {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BeigeCream)
+                .background(BackgroundColor)
         ) {
             items(fakePosts) { post ->
                 PostItem(
@@ -158,19 +188,22 @@ fun UserPosts(isGridView: Boolean) {
     }
 }
 
+
 @Composable
-fun GridPostItem(index: Int) {
+fun GridPostItem(imageRes: Int) {
     Box(
         modifier = Modifier
             .padding(4.dp)
-            .size(80.dp)
-            .background(DeepChocolate)
+            .size(120.dp)
+            .clip(MaterialTheme.shapes.medium)
+            .background(PostBackgroundColor),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Post $index",
-            color = GoldenSand,
-            modifier = Modifier.align(Alignment.Center),
-            style = MaterialTheme.typography.bodySmall
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = "Post Image",
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
+

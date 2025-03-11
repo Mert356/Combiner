@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.combiner.ui.components.SpecialTextField
-import com.example.combiner.ui.theme.BeigeCream
+import com.example.combiner.ui.theme.BackgroundColor
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -36,7 +36,7 @@ fun SignUpScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(BeigeCream)
+            .background(BackgroundColor)
             .padding(10.dp)
     ) {
         SpecialTextField(name.value, { name.value = it }, "Your Name")

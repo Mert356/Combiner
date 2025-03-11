@@ -1,25 +1,76 @@
 package com.example.combiner.ui.screens
 
+import Google
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
 import com.example.combiner.ui.components.SpecialButton
 import com.example.combiner.ui.components.SpecialTextField
-import com.example.combiner.ui.theme.DeepChocolate
+import com.example.combiner.ui.theme.TextAndIconColor
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 
 @Composable
 fun LogInScreen(navController: NavController) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val errorMessage = remember { mutableStateOf<String?>(null) }
+
+    val auth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
+    val activity = context as? ComponentActivity
+
+    val googleSignInClient = remember {
+        activity?.let {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("549293128191-7rgs6ej0d8bh6abmkflov2vnu28tfb8s.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
+            GoogleSignIn.getClient(it, gso)
+        }
+    }
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.data == null) {
+            errorMessage.value = "Google Girişi İptal Edildi veya Hata Oluştu"
+            return@rememberLauncherForActivityResult
+        }
+
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        navController.navigate("main") {
+                            popUpTo("log_in") { inclusive = true }
+                        }
+                    } else {
+                        errorMessage.value = "Google Girişi Başarısız: ${task.exception?.localizedMessage}"
+                    }
+                }
+        } catch (e: ApiException) {
+            errorMessage.value = "Google Girişi Hatası: ${e.message}"
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.secondary),
@@ -31,7 +82,7 @@ fun LogInScreen(navController: NavController) {
             fontSize = 50.sp,
             lineHeight = 60.sp,
             fontStyle = FontStyle.Italic,
-            color = DeepChocolate,
+            color = TextAndIconColor,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 50.dp)
@@ -42,6 +93,28 @@ fun LogInScreen(navController: NavController) {
 
         errorMessage.value?.let {
             Text(text = it, color = Color.Red, textAlign = TextAlign.Center)
+        }
+
+        Button(onClick = {
+            googleSignInClient?.signInIntent?.let { signInIntent ->
+                googleSignInLauncher.launch(signInIntent)
+            } ?: run {
+                errorMessage.value = "Google Sign-In Başlatılamadı"
+            }
+        }, modifier = Modifier.width(270.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(5.dp)
+            ) {
+                Icon(
+                    imageVector = Google,
+                    contentDescription = "Google Icon",
+                    tint = TextAndIconColor,
+                    modifier = Modifier.padding(end = 10.dp)
+                )
+                Text("Sign in with Google")
+            }
         }
 
         Row(

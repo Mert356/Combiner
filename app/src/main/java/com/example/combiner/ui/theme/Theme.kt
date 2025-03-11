@@ -15,14 +15,14 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Caramel,
-    secondary = BeigeCream,
-    background = WarmGray,
+    primary = SecondaryTextAndIconColor,
+    secondary = BackgroundColor,
+    background = PostBackgroundColor,
     surface = GoldenSand,
-    onPrimary = DeepChocolate,
+    onPrimary = TextAndIconColor,
     onSecondary = GoldenSand,
-    onBackground = DeepChocolate,
-    onSurface = DeepChocolate
+    onBackground = TextAndIconColor,
+    onSurface = TextAndIconColor
 )
 
 @Composable

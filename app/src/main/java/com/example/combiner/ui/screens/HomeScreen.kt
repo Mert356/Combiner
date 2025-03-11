@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import android.os.Handler
 import android.os.Looper
+import androidx.compose.ui.graphics.vector.ImageVector
+
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -34,7 +36,9 @@ fun HomeScreen(navController: NavHostController) {
         scrimColor = Color.Transparent,
         drawerContent = {
             ModalDrawerSheet(
-                modifier = Modifier.width(280.dp).background(WarmGray)
+                modifier = Modifier
+                    .width(280.dp)
+                    .background(PostBackgroundColor)
             ) {
                 DrawerContent(navController, onClose = {
                     scope.launch { drawerState.close() }
@@ -52,7 +56,7 @@ fun HomeScreen(navController: NavHostController) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(BeigeCream)
+                    .background(BackgroundColor)
                     .padding(padding)
             ) {
                 items(fakePosts) { post ->
@@ -78,12 +82,12 @@ fun HomeTopBar(onMenuClick: () -> Unit) {
         title = { Text("Home") },
         navigationIcon = {
             IconButton(onClick = onMenuClick) {
-                Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = DeepChocolate)
+                Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = TextAndIconColor)
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = BeigeCream,
-            titleContentColor = DeepChocolate
+            containerColor = BackgroundColor,
+            titleContentColor = TextAndIconColor
         )
     )
 }
@@ -94,14 +98,14 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit) {
         modifier = Modifier
             .fillMaxHeight()
             .width(280.dp)
-            .background(BeigeCream)
+            .background(BackgroundColor)
             .padding(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = "My Profile",
             style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp),
-            color = DeepChocolate,
+            color = TextAndIconColor,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Spacer(modifier = Modifier.padding(20.dp))
@@ -126,7 +130,7 @@ fun logoutUser(navController: NavHostController) {
 
 
 @Composable
-fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
+fun DrawerItem(icon: ImageVector, label: String, onClick: () -> Unit) {
     Column {
         Row(
             modifier = Modifier
@@ -138,17 +142,17 @@ fun DrawerItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: Str
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = DeepChocolate,
+                tint = TextAndIconColor,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = label,
                 fontSize = 16.sp,
-                color = DeepChocolate
+                color = TextAndIconColor
             )
         }
-        HorizontalDivider(color = DeepChocolate.copy(alpha = 0.2f))
+        HorizontalDivider(color = TextAndIconColor.copy(alpha = 0.2f))
     }
 }
 

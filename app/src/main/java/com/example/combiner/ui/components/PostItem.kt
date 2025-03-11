@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.combiner.ui.theme.WarmGray
+import com.example.combiner.ui.theme.PostBackgroundColor
 
 @Composable
 fun PostItem(
@@ -48,7 +48,7 @@ fun PostItem(
             .padding(vertical = 10.dp, horizontal = 10.dp),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
-            containerColor = WarmGray
+            containerColor = PostBackgroundColor
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {

@@ -45,12 +45,12 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem("profile", "Profile", Icons.Default.Person)
     )
 
-    NavigationBar(containerColor = BeigeCream) {
+    NavigationBar(containerColor = BackgroundColor) {
         val currentRoute = navController.currentDestination?.route
         items.forEach { item ->
             NavigationBarItem(
-                label = { Text(item.label, color = DeepChocolate) },
-                icon = { Icon(item.icon, contentDescription = item.label, tint = DeepChocolate) },
+                label = { Text(item.label, color = TextAndIconColor) },
+                icon = { Icon(item.icon, contentDescription = item.label, tint = TextAndIconColor) },
                 selected = currentRoute == item.route,
                 onClick = { navController.navigate(item.route) }
             )
