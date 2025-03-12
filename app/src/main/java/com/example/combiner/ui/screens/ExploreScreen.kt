@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -26,18 +27,26 @@ import com.example.combiner.ui.theme.*
 
 @Composable
 fun ExploreScreen() {
-    LazyColumn(
+    Column (
         modifier = Modifier
             .fillMaxSize()
             .background(BackgroundColor)
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        item{
+    ){
+
+        Box(modifier = Modifier.fillMaxWidth()
+            .padding(8.dp), contentAlignment = Alignment.Center
+        ){
             SearchBar()
         }
-        items(10) { index ->
-            ExploreRow(index)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            items(10) { index ->
+                ExploreRow(index)
+            }
         }
     }
 }
@@ -55,7 +64,7 @@ fun SearchBar() {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(0.dp,16.dp,0.dp,0.dp)
             .clip(RoundedCornerShape(20.dp)),
         singleLine = true,
         colors = TextFieldDefaults.colors(
