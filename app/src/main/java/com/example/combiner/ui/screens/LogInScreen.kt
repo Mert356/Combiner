@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
+import com.example.combiner.BuildConfig
 import com.example.combiner.ui.components.SpecialButton
 import com.example.combiner.ui.components.SpecialTextField
 import com.example.combiner.ui.theme.TextAndIconColor
@@ -33,11 +34,11 @@ fun LogInScreen(navController: NavController) {
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
     val activity = context as? ComponentActivity
-
+    val googleClientId = BuildConfig.GOOGLE_CLIENT_ID
     val googleSignInClient = remember {
         activity?.let {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("549293128191-7rgs6ej0d8bh6abmkflov2vnu28tfb8s.apps.googleusercontent.com")
+                .requestIdToken(googleClientId)
                 .requestEmail()
                 .build()
             GoogleSignIn.getClient(it, gso)
@@ -88,63 +89,105 @@ fun LogInScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 50.dp)
         )
 
-        SpecialTextField(email.value, { email.value = it }, "Enter Your E-mail")
-        SpecialTextField(password.value, { password.value = it }, "Enter Your Password", true)
-
-        errorMessage.value?.let {
-            Text(text = it, color = Color.Red, textAlign = TextAlign.Center)
-        }
-
-        Button(onClick = {
-            googleSignInClient?.signInIntent?.let { signInIntent ->
-                googleSignInLauncher.launch(signInIntent)
-            } ?: run {
-                errorMessage.value = "Google Sign-In Başlatılamadı"
-            }
-        }, modifier = Modifier.width(270.dp)) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(5.dp)
-            ) {
-                Icon(
-                    imageVector = Google,
-                    contentDescription = "Google Icon",
-                    tint = TextAndIconColor,
-                    modifier = Modifier.padding(end = 10.dp)
-                )
-                Text("Sign in with Google")
-            }
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+        Column(
+            modifier = Modifier
+                .width(300.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SpecialButton("Log In") {
-                if (email.value.isEmpty() || password.value.isEmpty()) {
-                    errorMessage.value = "Please enter your email and password!"
-                } else {
-                    loginUser(email.value, password.value) { success, error ->
-                        if (success) {
-                            navController.navigate("main") {
-                                popUpTo("log_in") { inclusive = true }
+            SpecialTextField(email.value, { email.value = it }, "Enter Your E-mail")
+            SpecialTextField(password.value, { password.value = it }, "Enter Your Password", true)
+
+            errorMessage.value?.let {
+                Text(text = it, color = Color.Red, textAlign = TextAlign.Center)
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                SpecialButton("Sign In") {
+                    if (email.value.isEmpty() || password.value.isEmpty()) {
+                        errorMessage.value = "Please enter your email and password!"
+                    } else {
+                        loginUser(email.value, password.value) { success, _ ->
+                            if (success) {
+                                navController.navigate("main") {
+                                    popUpTo("log_in") { inclusive = true }
+                                }
+                            } else {
+                                errorMessage.value = "Please check your E-mail and Password!"
                             }
-                        } else {
-                            errorMessage.value = "Please check your E-mail and Password!"
                         }
+                    }
+                }
+
+                SpecialButton("Sign Up") {
+                    navController.navigate("sign_up") {
+                        popUpTo("log_in") { inclusive = true }
                     }
                 }
             }
 
-            SpecialButton("Sign Up") {
-                navController.navigate("sign_up") {
-                    popUpTo("log_in") { inclusive = true }
+            DividerWithText()
+
+            Button(
+                onClick = {
+                    googleSignInClient?.signInIntent?.let { signInIntent ->
+                        googleSignInLauncher.launch(signInIntent)
+                    } ?: run {
+                        errorMessage.value = "Google Sign-In Başlatılamadı"
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().padding(10.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(5.dp)
+                ) {
+                    Icon(
+                        imageVector = Google,
+                        contentDescription = "Google Icon",
+                        tint = TextAndIconColor,
+                        modifier = Modifier.padding(end = 10.dp)
+                    )
+                    Text("Sign in with Google")
                 }
             }
         }
     }
 }
+
+
+@Composable
+fun DividerWithText() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        HorizontalDivider(
+            modifier = Modifier
+                .weight(1f)
+                .height(1.dp),
+            color = Color.Gray
+        )
+        Text(
+            text = "Or Sign In with Google",
+            modifier = Modifier.padding(horizontal = 8.dp),
+            fontSize = 14.sp,
+            color = TextAndIconColor
+        )
+        HorizontalDivider(
+            modifier = Modifier
+                .weight(1f)
+                .height(1.dp),
+            color = Color.Gray
+        )
+    }
+}
+
 
 fun loginUser(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
     val auth = FirebaseAuth.getInstance()

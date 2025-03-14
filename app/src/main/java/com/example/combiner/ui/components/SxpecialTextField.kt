@@ -39,6 +39,7 @@ fun SpecialTextField(
             focusedContainerColor = SecondaryTextAndIconColor,
             unfocusedContainerColor = BackgroundColor
         ),
+        singleLine = true,
         modifier = Modifier
             .clip(RoundedCornerShape(25.dp))
             .background(TextAndIconColor)

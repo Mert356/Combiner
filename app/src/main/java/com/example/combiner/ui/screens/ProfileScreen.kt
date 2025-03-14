@@ -114,21 +114,21 @@ fun UserProfile() {
                 painter = painterResource(id = R.drawable.man_2),
                 contentDescription = "User Profile",
                 modifier = Modifier
-                    .size(150.dp)
+                    .size(140.dp)
                     .clip(CircleShape)
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
         Column {
-            addInfo("Followers",1200)
+            AddInfo("Followers",1200)
         }
-        addInfo("Followings",1500)
-        addInfo("Posts",150)
+        AddInfo("Followings",1500)
+        AddInfo("Posts",150)
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
 @Composable
-fun addInfo(text:String,number:Int){
+fun AddInfo(text:String, number:Int){
     Column(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(5.dp)
