@@ -38,7 +38,7 @@ fun HomeScreen(navController: NavHostController) {
             ModalDrawerSheet(
                 modifier = Modifier
                     .width(280.dp)
-                    .background(PostBackgroundColor)
+                    .background(BackgroundColor)
             ) {
                 DrawerContent(navController, onClose = {
                     scope.launch { drawerState.close() }
@@ -121,12 +121,14 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit) {
 fun logoutUser(navController: NavHostController) {
     val auth = FirebaseAuth.getInstance()
     auth.signOut()
-    Handler(Looper.getMainLooper()).post {
+
+    Handler(Looper.getMainLooper()).postDelayed({
         navController.navigate("log_in") {
-            popUpTo("home") { inclusive = true }
+            popUpTo(0) { inclusive = true }
         }
-    }
+    }, 1000)
 }
+
 
 
 @Composable

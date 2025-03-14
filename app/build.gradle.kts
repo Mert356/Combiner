@@ -20,6 +20,9 @@ android {
 
         val googleClientId = project.findProperty("GOOGLE_CLIENT_ID") as String? ?: ""
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
+
+        val apiKey = project.findProperty("API_KEY") as String? ?: ""
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -67,5 +70,10 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.8.9")
+
+
 
 }
