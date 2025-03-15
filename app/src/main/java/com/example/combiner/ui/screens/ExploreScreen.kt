@@ -69,7 +69,7 @@ fun SearchBar() {
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = SecondaryTextAndIconColor,
-            unfocusedContainerColor = SecondaryTextAndIconColor,
+            unfocusedContainerColor = PostBackgroundColor,
             disabledContainerColor = Color.White,
             cursorColor = Color.Black,
             focusedIndicatorColor = Color.Transparent,
